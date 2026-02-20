@@ -174,7 +174,6 @@ textarea { resize: vertical; min-height: 90px; }
 }
 .product-card.selected .chk { background: var(--pink); border-color: var(--pink); color: white; }
 
-/* IMAGEN DEL PRODUCTO — se adapta a cualquier imagen que pongas */
 .prod-img {
   width: 100%;
   height: 110px;
@@ -195,7 +194,6 @@ textarea { resize: vertical; min-height: 90px; }
   transition: transform 0.3s ease;
 }
 .product-card:hover .prod-img img { transform: scale(1.04); }
-/* Si no hay imagen, muestra el emoji de fallback */
 .prod-img .fallback {
   font-size: 3rem;
   display: flex;
@@ -811,7 +809,6 @@ textarea { resize: vertical; min-height: 90px; }
     <div class="sec-sub">Realiza tu pago y envíanos la captura por WhatsApp</div>
     <div class="sec-body">
 
-      <!-- Datos de pago -->
       <div style="background: linear-gradient(135deg, #fff0f7, #f3e5f5); border: 2px solid var(--pink); border-radius: 14px; padding: 20px; margin-bottom: 18px;">
         <p style="font-family:'Fredoka One',cursive; font-size:1rem; color:var(--pink); margin-bottom:14px;">📲 Datos para el pago:</p>
 
@@ -843,7 +840,6 @@ textarea { resize: vertical; min-height: 90px; }
         </div>
       </div>
 
-      <!-- Consideraciones -->
       <div class="considerations">
         <h4>⚠️ CONSIDERACIONES IMPORTANTES</h4>
         <ul>
@@ -876,7 +872,7 @@ textarea { resize: vertical; min-height: 90px; }
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnN_i1nU574xrzPW2VDyJvOPrQnUwrTiAiyVavQqHoE7xWoiLHSKDNlEeOf5Fr7phl/exec';
 
 const PRECIOS = {
-  cvpromo: 6, cvbasica: 2,
+  cvpromo: 6, cvbasica: 1,
   cmbasica: 2.5, cmpergamino: 3.5, cmtematica: 5,
   csbasica: 2.5, cspergamino: 3.5, cstematica: 5,
   festandar: 2.5, fespecial: 3.5, fpremium: 6
@@ -963,19 +959,6 @@ function checkOtraTematica(type) {
 
 function forradoCheck() { hide('err-forrado'); }
 
-
-function validate() {
-  let ok = true;
-  if (!v('nombre'))   { show('err-nombre');   ok = false; } else hide('err-nombre');
-  if (!v('telefono')) { show('err-telefono'); ok = false; } else hide('err-telefono');
-  if (selected.size === 0) { show('err-productos'); ok = false; } else hide('err-productos');
-
-  if (selected.has('festandar')) {
-    const vinifan = document.getElementById('for-vinifan').checked;
-    const lustre  = document.getElementById('for-lustre').checked;
-    if (!vinifan && !lustre) { show('err-forrado'); ok = false; } else hide('err-forrado');
-  }
-
 function validate() {
   let ok = true;
   if (!v('nombre'))   { show('err-nombre');   ok = false; } else hide('err-nombre');
@@ -997,7 +980,7 @@ function validate() {
   }
 
   return ok;
-}}
+}
 
 async function enviarPedido() {
   if (!validate()) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
