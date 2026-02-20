@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convermania AQP – Registro de Compra</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pink: #E91E8C;
+  --pink-light: #F8BBD9;
+  --pink-soft: #FFF5FB;
+  --magenta: #C2185B;
+  --purple: #7B1FA2;
+  --white: #FFFFFF;
+  --border: #F48FB1;
+  --text: #333;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #fff5fb;
+  color: var(--text);
+}
+
+/* HEADER */
+.header {
+  background: white;
+  border-bottom: 3px solid var(--pink);
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.header-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.9rem;
+  color: var(--pink);
+  line-height: 1.15;
+}
+
+/* LOGO */
+.logo-wrap { text-align: center; }
+.logo-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgba(233,30,140,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.logo-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.logo-brand {
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.65rem;
+  color: var(--purple);
+  text-align: center;
+  margin-top: 4px;
+  line-height: 1.2;
+}
+
+/* WRAPPER */
+.wrapper { max-width: 720px; margin: 0 auto; padding: 24px 16px 80px; }
+
+/* SECTION */
+.section {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 22px;
+  overflow: hidden;
+  box-shadow: 0 2px 14px rgba(233,30,140,0.08);
+}
+.sec-head {
+  background: linear-gradient(90deg, var(--pink), var(--magenta));
+  color: white;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  padding: 13px 22px;
+  letter-spacing: 1px;
+  display: flex; align-items: center; gap: 10px;
+}
+.sec-sub {
+  background: #fff0f7;
+  border-bottom: 1px solid var(--pink-light);
+  padding: 8px 22px;
+  font-size: 0.82rem;
+  color: var(--magenta);
+  font-weight: 700;
+  text-align: center;
+}
+.sec-body { padding: 22px; }
+
+/* FIELDS */
+.field { margin-bottom: 18px; }
+.field label {
+  display: block;
+  font-weight: 800;
+  font-size: 0.87rem;
+  color: var(--pink);
+  margin-bottom: 6px;
+}
+.req { color: var(--magenta); }
+input[type="text"], input[type="tel"], select, textarea {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 9px;
+  padding: 10px 14px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.92rem;
+  color: var(--text);
+  background: #fff5fb;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgba(233,30,140,0.1);
+  background: white;
+}
+textarea { resize: vertical; min-height: 90px; }
+.err { color: #d32f2f; font-size: 0.78rem; margin-top: 4px; display: none; }
+.err.show { display: flex; align-items: center; gap: 4px; }
+.phone-row { display: grid; grid-template-columns: 90px 1fr; gap: 10px; }
+
+/* PRODUCT CARDS */
+.category-label {
+  font-family: 'Fredoka One', cursive;
+  color: var(--purple);
+  font-size: 1rem;
+  margin: 18px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px dashed var(--pink-light);
+  display: flex; align-items: center; gap: 8px;
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+.product-card {
+  border: 2px solid var(--pink-light);
+  border-radius: 14px;
+  padding: 14px 14px 12px;
+  background: #fff5fb;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  user-select: none;
+}
+.product-card:hover { border-color: var(--pink); box-shadow: 0 4px 14px rgba(233,30,140,0.15); }
+.product-card.selected {
+  border-color: var(--pink);
+  background: #ffe6f4;
+  box-shadow: 0 4px 18px rgba(233,30,140,0.25);
+}
+.chk {
+  position: absolute; top: 10px; right: 10px;
+  width: 22px; height: 22px;
+  border: 2px solid var(--border); border-radius: 5px;
+  background: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem; transition: all 0.2s;
+  z-index: 2;
+}
+.product-card.selected .chk { background: var(--pink); border-color: var(--pink); color: white; }
+
+/* IMAGEN DEL PRODUCTO — se adapta a cualquier imagen que pongas */
+.prod-img {
+  width: 100%;
+  height: 110px;
+  border-radius: 9px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.prod-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 9px;
+  transition: transform 0.3s ease;
+}
+.product-card:hover .prod-img img { transform: scale(1.04); }
+/* Si no hay imagen, muestra el emoji de fallback */
+.prod-img .fallback {
+  font-size: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.prod-name {
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.88rem;
+  color: var(--pink);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.prod-desc { font-size: 0.74rem; color: #777; line-height: 1.4; margin-bottom: 8px; }
+.prod-price {
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.1rem;
+  color: var(--magenta);
+}
+.qty-row {
+  margin-top: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.qty-row span { font-size: 0.75rem; color: #999; font-weight: 700; }
+.qty-sel { width: 70px; padding: 5px 8px; font-size: 0.83rem; }
+
+/* CONDITIONAL */
+.cond {
+  display: none;
+  background: #fff8fd;
+  border: 1.5px dashed var(--border);
+  border-radius: 13px;
+  padding: 18px 20px;
+  margin-top: 14px;
+  animation: fadeIn 0.3s ease;
+}
+.cond.show { display: block; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+.cond-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 0.98rem;
+  color: var(--purple);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 7px;
+}
+
+/* PILLS */
+.pill-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.pill {
+  border: 1.5px solid var(--border);
+  border-radius: 50px;
+  padding: 7px 16px;
+  font-size: 0.82rem; font-weight: 800;
+  color: var(--pink);
+  cursor: pointer;
+  background: white;
+  transition: all 0.18s;
+  user-select: none;
+}
+.pill:hover { background: #fff0f7; }
+.pill.active { background: var(--pink); color: white; border-color: var(--pink); }
+
+/* PRICE SUMMARY */
+.price-summary {
+  background: linear-gradient(135deg, #fff0f7, #f3e5f5);
+  border: 2px solid var(--pink);
+  border-radius: 14px;
+  padding: 16px 20px;
+}
+.price-row {
+  display: flex; justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 1px dashed var(--pink-light);
+  font-size: 0.87rem;
+}
+.price-row:last-child { border: none; }
+.price-row .pname { color: #555; }
+.price-row .pamt { font-weight: 800; color: var(--magenta); }
+.price-total-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 12px; padding-top: 12px;
+  border-top: 2px solid var(--pink);
+}
+.price-total-row .tlabel { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: var(--text); }
+.price-total-row .tamount { font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--pink); }
+
+/* UPLOAD */
+.upload-area {
+  border: 2px dashed var(--border);
+  border-radius: 13px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  background: #fff5fb;
+  position: relative;
+  transition: all 0.2s;
+}
+.upload-area:hover, .upload-area.drag { border-color: var(--pink); background: #ffe6f4; }
+.upload-area input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+.upload-icon { font-size: 2.8rem; margin-bottom: 8px; }
+.upload-txt { color: #888; font-size: 0.88rem; }
+.upload-txt strong { color: var(--pink); }
+.preview-imgs { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; justify-content: center; }
+.prev-img { width: 85px; height: 85px; border-radius: 10px; object-fit: cover; border: 2px solid var(--pink-light); }
+
+/* CONSIDERATIONS */
+.considerations {
+  background: #fff0f7;
+  border-left: 4px solid var(--pink);
+  border-radius: 0 12px 12px 0;
+  padding: 16px 18px;
+  margin-top: 10px;
+}
+.considerations h4 {
+  font-family: 'Fredoka One', cursive;
+  color: var(--pink);
+  margin-bottom: 10px;
+  font-size: 1rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.considerations ul { padding-left: 18px; }
+.considerations li { font-size: 0.84rem; color: #555; margin-bottom: 6px; line-height: 1.5; }
+
+/* SUBMIT */
+.btn-submit {
+  width: 100%;
+  background: linear-gradient(135deg, var(--pink), var(--magenta));
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 16px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: 0 6px 25px rgba(233,30,140,0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: 10px;
+}
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 35px rgba(233,30,140,0.55); }
+.btn-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+.spinner { display: none; width: 22px; height: 22px; border: 3px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* SUCCESS */
+.success-screen {
+  display: none;
+  text-align: center;
+  padding: 50px 20px;
+  animation: fadeIn 0.5s ease;
+}
+.success-screen.show { display: block; }
+.success-icon { font-size: 5rem; margin-bottom: 16px; }
+.success-screen h2 { font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--pink); margin-bottom: 10px; }
+.success-screen p { color: #666; font-size: 1rem; line-height: 1.7; }
+.wsp-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 24px;
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: white; text-decoration: none;
+  font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1rem;
+  padding: 14px 30px; border-radius: 50px;
+  box-shadow: 0 6px 25px rgba(37,211,102,0.4);
+}
+
+/* TABLE vinifan */
+.vinifan-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+.vinifan-table th {
+  background: var(--magenta); color: white;
+  padding: 10px 14px; text-align: left;
+  font-family: 'Fredoka One', cursive; font-size: 0.9rem;
+}
+.vinifan-table td { padding: 10px 14px; border-bottom: 1px solid var(--pink-light); font-size: 0.88rem; }
+.vinifan-table tr:last-child td { border-bottom: none; }
+.vinifan-table td:last-child { text-align: center; }
+.vinifan-table input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--pink); cursor: pointer; }
+
+@media (max-width: 480px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .header-title { font-size: 1.4rem; }
+  .logo-img { width: 55px; height: 55px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-title">REGISTRO DE<br>COMPRA</div>
+  <div class="logo-wrap">
+    <div class="logo-img">
+      <img src="CARI.png" alt="Convermania AQP">
+    </div>
+    <div class="logo-brand">Conver<br>Mania AQP</div>
+  </div>
+</div>
+
+<div class="wrapper">
+
+  <!-- 1. DATOS PERSONALES -->
+  <div class="section">
+    <div class="sec-head">👤 DATOS PERSONALES</div>
+    <div class="sec-sub">Escriba sus datos personales</div>
+    <div class="sec-body">
+      <div class="field">
+        <label>Nombre y Apellidos <span class="req">*</span></label>
+        <input type="text" id="nombre" placeholder="Ej: María Torres Quispe">
+        <div class="err" id="err-nombre">⚠ Este campo es requerido</div>
+      </div>
+      <div class="field">
+        <label>Número de teléfono / WhatsApp <span class="req">*</span></label>
+        <div class="phone-row">
+          <input type="tel" id="codigo" placeholder="+51" value="+51">
+          <input type="tel" id="telefono" placeholder="Ej: 995284090">
+        </div>
+        <div class="err" id="err-telefono">⚠ Ingresa tu número de teléfono</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. SELECCIÓN DE PRODUCTOS -->
+  <div class="section">
+    <div class="sec-head">🛒 SELECCIÓN DE SERVICIOS</div>
+    <div class="sec-sub">Selecciona los productos que deseas (puedes elegir varios)</div>
+    <div class="sec-body">
+
+      <!-- CARÁTULAS DIGITALES -->
+      <div class="category-label">💻 Carátulas Digitales / Virtuales</div>
+      <p style="font-size:0.8rem; color:#999; margin:-6px 0 12px; font-weight:600;">
+        🎨 Siempre incluyen temática personalizada o imagen según la materia · Listas para imprimir
+      </p>
+      <div class="product-grid">
+
+        <div class="product-card" id="card-cvpromo" onclick="toggleProduct('cvpromo')" style="position:relative;">
+          <div class="chk" id="chk-cvpromo">✓</div>
+          <div style="position:absolute;top:10px;left:10px;background:var(--pink);color:white;font-family:'Fredoka One',cursive;font-size:0.72rem;padding:3px 10px;border-radius:50px;letter-spacing:0.5px;z-index:2;">🔥 PROMO</div>
+          <div class="prod-img" style="margin-top:6px;">
+            <img src="digitales.png" alt="Pack 12 Carátulas"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fallback" style="display:none">🎁</div>
+          </div>
+          <div class="prod-name">Pack 12 Carátulas</div>
+          <div class="prod-desc">12 carátulas digitales personalizadas con temática o imagen de cada materia · Listas para imprimir</div>
+          <div class="prod-price">S/ 6.00 <span style="font-size:0.72rem;color:#aaa;font-family:'Nunito',sans-serif;">(S/ 0.50 c/u)</span></div>
+          <div style="background:#fff0f7;border-radius:8px;padding:6px 10px;margin-top:8px;font-size:0.75rem;color:var(--magenta);font-weight:700;">
+            ✅ Pack fijo de 12 unidades
+          </div>
+        </div>
+
+        <div class="product-card" id="card-cvbasica" onclick="toggleProduct('cvbasica')">
+          <div class="chk" id="chk-cvbasica">✓</div>
+          <div class="prod-img">
+            <img src="digital_unica.png" alt="Carátula Digital Unitaria"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fallback" style="display:none">💻</div>
+          </div>
+          <div class="prod-name">Carátula Digital Unitaria</div>
+          <div class="prod-desc">Carátula digital personalizada con temática o imagen según la materia · lista para imprimir</div>
+          <div class="prod-price">S/ 1.00 <span style="font-size:0.72rem;color:#aaa;font-family:'Nunito',sans-serif;">por unidad</span></div>
+          <div class="qty-row">
+            <span>Cantidad:</span>
+            <select class="qty-sel" id="qty-cvbasica" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9</option><option>10</option><option>11</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CARÁTULAS A MANO NIÑOS -->
+      <div class="category-label" style="margin-top:22px;">✏️ Carátulas a Mano – Niños (Primaria)</div>
+      <div class="product-grid">
+
+        <div class="product-card" id="card-cmbasica" onclick="toggleProduct('cmbasica')">
+          <div class="chk" id="chk-cmbasica">✓</div>
+          <div class="prod-img">
+            <img src="basicas.png" alt="Carátula Básica Niños"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fallback" style="display:none"></div>
+          </div>
+          <div class="prod-name">Carátula Básica</div>
+          <div class="prod-desc">Carátula hecha a mano con temática en base al curso, título y datos</div>
+          <div class="prod-price">S/ 2.50</div>
+          <div class="qty-row">
+            <span>Cantidad:</span>
+            <select class="qty-sel" id="qty-cmbasica" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9</option><option>10</option><option>12</option><option>15</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="product-card" id="card-cmpergamino" onclick="toggleProduct('cmpergamino')">
+          <div class="chk" id="chk-cmpergamino">✓</div>
+          <div class="prod-img">
+            <img src="pergamino.jpeg" alt="Carátula Pergamino Niños"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fallback" style="display:none">📜</div>
+          </div>
+          <div class="prod-name">Carátula Pergamino</div>
+          <div class="prod-desc">Tipo papel pergamino con temática en base al curso, título y datos del estudiante</div>
+          <div class="prod-price">S/ 3.50</div>
+          <div class="qty-row">
+            <span>Cantidad:</span>
+            <select class="qty-sel" id="qty-cmpergamino" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9</option><option>10</option><option>12</option><option>15</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="product-card" id="card-cmtematica" onclick="toggleProduct('cmtematica')">
+          <div class="chk" id="chk-cmtematica">✓</div>
+          <div class="prod-img">
+            <img src="premium.jpeg" alt="Carátula Temática Niños"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fallback" style="display:none">🎨</div>
+          </div>
+          <div class="prod-name">Carátula Temática</div>
+          <div class="prod-desc">Con temática personalizada, título de curso y datos del estudiante</div>
+          <div class="prod-price">S/ 5.00</div>
+          <div class="qty-row">
+            <span>Cantidad:</span>
+            <select class="qty-sel" id="qty-cmtematica" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9</option><option>10</option><option>12</option><option>15</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CARÁTULAS A MANO SECUNDARIA -->
+      <div class="category-label" style="margin-top:22px;">📚 Carátulas a Mano – Secundaria</div>
+      <div class="product-grid">
+
+        <div class="product-card" id="card-csbasica" onclick="toggleProduct('csbasica')">
+          <div class="chk" id="chk-csbasica">✓</div>
+          <div class="prod-img">
+            <img src="basicas.png" alt="Carátula Básica Secundaria"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fallback" style="display:none">📘</div>
+          </div>
+          <div class="prod-name">Carátula Básica</div>
+          <div class="prod-desc">Carátula hecha a mano con temática en base al curso, título y datos</div>
+          <div class="prod-price">S/ 2.50</div>
+          <div class="qty-row">
+            <span>Cantidad:</span>
+            <select class="qty-sel" id="qty-csbasica" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9</option><option>10</option><option>12</option><option>15</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="product-card" id="card-cspergamino" onclick="toggleProduct('cspergamino')">
+          <div class="chk" id="chk-cspergamino">✓</div>
+          <div class="prod-img">
+            <img src="pergamino.jpeg" alt="Carátula Pergamino Secundaria"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fallback" style="display:none">📃</div>
+          </div>
+          <div class="prod-name">Carátula Pergamino</div>
+          <div class="prod-desc">Tipo papel pergamino con temática en base al curso y datos del estudiante</div>
+          <div class="prod-price">S/ 3.50</div>
+          <div class="qty-row">
+            <span>Cantidad:</span>
+            <select class="qty-sel" id="qty-cspergamino" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9</option><option>10</option><option>12</option><option>15</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="product-card" id="card-cstematica" onclick="toggleProduct('cstematica')">
+          <div class="chk" id="chk-cstematica">✓</div>
+          <div class="prod-img">
+            <img src="premium.jpeg" alt="Carátula Temática Secundaria"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fallback" style="display:none">🖼️</div>
+          </div>
+          <div class="prod-name">Carátula Temática</div>
+          <div class="prod-desc">Con temática personalizada, título de curso y datos del estudiante</div>
+          <div class="prod-price">S/ 5.00</div>
+          <div class="qty-row">
+            <span>Cantidad:</span>
+            <select class="qty-sel" id="qty-cstematica" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9</option><option>10</option><option>12</option><option>15</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- FORRADO -->
+      <div class="category-label" style="margin-top:22px;">📦 Forrado de Cuadernos</div>
+      <div class="product-grid">
+
+        <div class="product-card" id="card-festandar" onclick="toggleProduct('festandar')">
+          <div class="chk" id="chk-festandar">✓</div>
+          <div class="prod-img">
+            <img src="forrado_estandar.png" alt="Forrado Estándar"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fallback" style="display:none">📒</div>
+          </div>
+          <div class="prod-name">Forrado Estándar Cuaderno</div>
+          <div class="prod-desc">Forrado y etiquetado de cuadernos A5 con vinifan y/o color entero (papel lustre)</div>
+          <div class="prod-price">S/ 2.50</div>
+          <div class="qty-row">
+            <span>Cantidad:</span>
+            <select class="qty-sel" id="qty-festandar" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9</option><option>10</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="product-card" id="card-fespecial" onclick="toggleProduct('fespecial')">
+          <div class="chk" id="chk-fespecial">✓</div>
+          <div class="prod-img">
+            <img src="forrado.jpeg" alt="Forrado Especial"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fallback" style="display:none">⭐</div>
+          </div>
+          <div class="prod-name">Forrado Especial</div>
+          <div class="prod-desc">Forrado de cuaderno con título, imagen de la materia y etiquetado en la tapa</div>
+          <div class="prod-price">S/ 3.50</div>
+          <div class="qty-row">
+            <span>Cantidad:</span>
+            <select class="qty-sel" id="qty-fespecial" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9</option><option>10</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="product-card" id="card-fpremium" onclick="toggleProduct('fpremium')">
+          <div class="chk" id="chk-fpremium">✓</div>
+          <div class="prod-img">
+            <img src="forrado_pre.png" alt="Forrado Premium"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fallback" style="display:none">👑</div>
+          </div>
+          <div class="prod-name">Forrado Premium</div>
+          <div class="prod-desc">Forrado de cuaderno con portada impresa a color en la tapa con temática a preferencia</div>
+          <div class="prod-price">S/ 6.00</div>
+          <div class="qty-row">
+            <span>Cantidad:</span>
+            <select class="qty-sel" id="qty-fpremium" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9</option><option>10</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="err" id="err-productos" style="margin-top:12px; font-size:0.85rem;">⚠ Debes seleccionar al menos un producto</div>
+
+    </div>
+  </div>
+
+  <!-- 3. RESUMEN DE PRECIOS -->
+  <div class="section" id="sec-total" style="display:none">
+    <div class="sec-head">💰 TOTAL DEL PEDIDO</div>
+    <div class="sec-body">
+      <div class="price-summary">
+        <div id="price-rows"></div>
+        <div class="price-total-row">
+          <div class="tlabel">💳 Total a pagar:</div>
+          <div class="tamount" id="price-grand">S/ 0.00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. INFORMACIÓN ADICIONAL (CONDICIONAL) -->
+  <div class="section" id="sec-adicional" style="display:none">
+    <div class="sec-head">ℹ️ INFORMACIÓN ADICIONAL</div>
+    <div class="sec-sub">Completa según los servicios que seleccionaste</div>
+    <div class="sec-body">
+
+      <div class="cond show" id="cond-tematica-car">
+        <div class="cond-title">🎨 Temática de Carátula</div>
+        <div class="field">
+          <label>Selecciona una temática</label>
+          <select id="tematica-car" onchange="checkOtraTematica('car')">
+            <option value="">— Seleccione —</option>
+            <option>Imagen según la materia (automático)</option>
+            <option>Stranger Things</option>
+            <option>Anime / Manga</option>
+            <option>Minecraft</option>
+            <option>Among Us</option>
+            <option>Fútbol / Deporte</option>
+            <option>Naturaleza / Flores</option>
+            <option>Unicornios</option>
+            <option>Superheroes</option>
+            <option>Música</option>
+            <option>Espacio / Galaxia</option>
+            <option>Videojuegos</option>
+            <option>Otra (escribir abajo)</option>
+          </select>
+        </div>
+        <div class="field" id="otra-tematica-car-wrap" style="display:none">
+          <label>¿Cuál temática buscas? Escríbela aquí</label>
+          <input type="text" id="otra-tematica-car" placeholder="Describe la temática que deseas...">
+        </div>
+      </div>
+
+      <div class="cond" id="cond-tematica-for">
+        <div class="cond-title">👑 Temática de Forrado Premium</div>
+        <div class="field">
+          <label>Selecciona una temática para el forrado</label>
+          <select id="tematica-for" onchange="checkOtraTematica('for')">
+            <option value="">— Seleccione —</option>
+            <option>Stranger Things</option>
+            <option>Anime / Manga</option>
+            <option>Minecraft</option>
+            <option>Among Us</option>
+            <option>Fútbol / Deporte</option>
+            <option>Naturaleza / Flores</option>
+            <option>Unicornios</option>
+            <option>Superheroes</option>
+            <option>Música</option>
+            <option>Espacio / Galaxia</option>
+            <option>Videojuegos</option>
+            <option>Otra (escribir abajo)</option>
+          </select>
+        </div>
+        <div class="field" id="otra-tematica-for-wrap" style="display:none">
+          <label>¿Cuál temática buscas? Escríbela aquí</label>
+          <input type="text" id="otra-tematica-for" placeholder="Describe la temática que deseas...">
+        </div>
+      </div>
+
+      <div class="cond" id="cond-tipo-forrado">
+        <div class="cond-title">📒 Tipo de Forrado Estándar</div>
+        <p style="font-size:0.83rem; color:#666; margin-bottom:12px;">
+          Selecciona el tipo de material para el forrado:
+        </p>
+        <table class="vinifan-table">
+          <thead><tr><th>Tipo de forrado</th><th>¿Lo desea?</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Solo Vinifan</td>
+              <td><input type="checkbox" id="for-vinifan" onchange="forradoCheck()"></td>
+            </tr>
+            <tr>
+              <td>Papel lustre + Vinifan</td>
+              <td><input type="checkbox" id="for-lustre" onchange="forradoCheck()"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="err" id="err-forrado" style="margin-top:8px;">⚠ Selecciona al menos un tipo de forrado</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 5. DATOS DEL ESTUDIANTE -->
+  <div class="section" id="sec-estudiante" style="display:none">
+    <div class="sec-head">🎓 DATOS DEL ESTUDIANTE</div>
+    <div class="sec-sub">En caso de carátula temática, forrado premium o forrado especial</div>
+    <div class="sec-body">
+      <div class="field">
+        <label>Nombre y Apellidos del Estudiante <span class="req">*</span></label>
+        <input type="text" id="est-nombre" placeholder="Nombre completo del alumno">
+        <div class="err" id="err-est-nombre">⚠ Este campo es requerido</div>
+      </div>
+      <div class="field">
+        <label>Institución Educativa <span class="req">*</span></label>
+        <input type="text" id="est-colegio" placeholder="Ej: I.E. Santa Clara">
+        <div class="err" id="err-est-colegio">⚠ Este campo es requerido</div>
+      </div>
+      <div class="field">
+        <label>Grado y Sección <span class="req">*</span></label>
+        <input type="text" id="est-grado" placeholder="Ej: 3ro A – Primaria">
+        <div class="err" id="err-est-grado">⚠ Este campo es requerido</div>
+      </div>
+      <div class="field">
+        <label>Nombre de cada curso / materia <span class="req">*</span></label>
+        <p style="font-size:0.78rem; color:var(--magenta); margin-bottom:8px; font-weight:700;">
+          📌 Si las materias tienen color específico escribe: Matemática – rojo. Si tiene nombre de docente: Comunicación – azul – Prof. Torres. Pon cada materia en una línea.
+        </p>
+        <textarea id="est-cursos" rows="6" placeholder="Matemática – color rojo&#10;Comunicación – color azul&#10;Ciencia y Tecnología&#10;Personal Social – Prof. García&#10;Arte y Cultura&#10;Educación Física"></textarea>
+        <div class="err" id="err-est-cursos">⚠ Ingresa al menos un curso</div>
+      </div>
+      <div class="field">
+        <label>Comentario adicional</label>
+        <textarea id="est-comentario" rows="3" placeholder="Cualquier indicación especial, detalles del diseño, preferencias de color, etc."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. PAGO -->
+  <div class="section">
+    <div class="sec-head">💳 INFORMACIÓN DE PAGO</div>
+    <div class="sec-sub">Realiza tu pago y envíanos la captura por WhatsApp</div>
+    <div class="sec-body">
+
+      <!-- Datos de pago -->
+      <div style="background: linear-gradient(135deg, #fff0f7, #f3e5f5); border: 2px solid var(--pink); border-radius: 14px; padding: 20px; margin-bottom: 18px;">
+        <p style="font-family:'Fredoka One',cursive; font-size:1rem; color:var(--pink); margin-bottom:14px;">📲 Datos para el pago:</p>
+
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="background:white; border-radius:10px; padding:12px 16px; border:1.5px solid var(--border); display:flex; align-items:center; gap:12px;">
+            <span style="font-size:1.8rem;">📱</span>
+            <div>
+              <div style="font-size:0.75rem; color:#999; font-weight:700;">YAPE</div>
+              <div style="font-family:'Fredoka One',cursive; font-size:1.4rem; color:var(--magenta); letter-spacing:1px;">972 941 077</div>
+              <div style="font-size:0.75rem; color:#888;">A nombre de: <strong>Convermania AQP</strong></div>
+            </div>
+          </div>
+
+          <div style="background:white; border-radius:10px; padding:12px 16px; border:1.5px solid var(--border); display:flex; align-items:center; gap:12px;">
+            <span style="font-size:1.8rem;">🏦</span>
+            <div>
+              <div style="font-size:0.75rem; color:#999; font-weight:700;">DEPÓSITO / TRANSFERENCIA</div>
+              <div style="font-family:'Fredoka One',cursive; font-size:1rem; color:var(--magenta);">Consultar número al confirmar</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:14px; background:rgba(233,30,140,0.06); border-radius:10px; padding:12px 14px; border:1px dashed var(--border);">
+          <p style="font-size:0.82rem; color:var(--magenta); font-weight:800; margin-bottom:4px;">📸 ¿Cómo enviar tu captura?</p>
+          <p style="font-size:0.8rem; color:#666; line-height:1.6;">
+            Después de confirmar tu pedido te aparecerá un botón para escribirnos por WhatsApp.<br>
+            <strong>Adjunta la foto/captura del pago en ese mismo mensaje.</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- Consideraciones -->
+      <div class="considerations">
+        <h4>⚠️ CONSIDERACIONES IMPORTANTES</h4>
+        <ul>
+          <li>⏳ <strong>Tiempo de entrega:</strong> 3 a 4 días para carátulas digitales · 4 a 6 días para el resto de productos, desde la fecha de envío.</li>
+          <li>📦 <strong>Envío:</strong> Los gastos de envío son asumidos por el cliente. El recojo se realizará en una dirección determinada que será otorgada.</li>
+          <li>💰 <strong>Pago:</strong> El pago del servicio es <strong>por adelantado</strong>.</li>
+          <li>🧴 <strong>Forrado:</strong> El cliente debe proporcionar el material (Vinifan y/o Papel lustre) dependiendo del servicio adquirido.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <button class="btn-submit" id="btn-enviar" onclick="enviarPedido()">
+    <span id="btn-txt">✅ Confirmar Pedido</span>
+    <div class="spinner" id="spinner"></div>
+  </button>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="success">
+    <div class="success-icon">🎉</div>
+    <h2>¡Pedido registrado!</h2>
+    <p>Tu pedido fue recibido correctamente.<br>Nos comunicaremos contigo en las próximas horas<br>para coordinar la entrega. ¡Gracias por elegirnos! 💕</p>
+    <a class="wsp-btn" id="wsp-link" href="#" target="_blank">📲 Escribir por WhatsApp</a>
+  </div>
+
+</div>
+
+<script>
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnN_i1nU574xrzPW2VDyJvOPrQnUwrTiAiyVavQqHoE7xWoiLHSKDNlEeOf5Fr7phl/exec';
+
+const PRECIOS = {
+  cvpromo: 6, cvbasica: 2,
+  cmbasica: 2.5, cmpergamino: 3.5, cmtematica: 5,
+  csbasica: 2.5, cspergamino: 3.5, cstematica: 5,
+  festandar: 2.5, fespecial: 3.5, fpremium: 6
+};
+
+const NOMBRES = {
+  cvpromo: 'Pack 12 Carátulas Digitales (Promo)',
+  cvbasica: 'Carátula Digital Unitaria',
+  cmbasica: 'Carátula Básica Niños',
+  cmpergamino: 'Carátula Pergamino Niños',
+  cmtematica: 'Carátula Temática Niños',
+  csbasica: 'Carátula Básica Secundaria',
+  cspergamino: 'Carátula Pergamino Secundaria',
+  cstematica: 'Carátula Temática Secundaria',
+  festandar: 'Forrado Estándar Cuaderno',
+  fespecial: 'Forrado Especial',
+  fpremium: 'Forrado Premium'
+};
+
+const TEMATICA_CAR = ['cvpromo','cvbasica','cmtematica','cstematica'];
+const NECESITA_ESTUDIANTE = ['cvpromo','cvbasica','cmtematica','cstematica','fespecial','fpremium','cmbasica','csbasica','cmpergamino','cspergamino'];
+
+let selected = new Set();
+
+function toggleProduct(id) {
+  const card = document.getElementById('card-' + id);
+  if (selected.has(id)) {
+    selected.delete(id);
+    card.classList.remove('selected');
+  } else {
+    selected.add(id);
+    card.classList.add('selected');
+  }
+  updateTotal();
+  updateConditionals();
+  hide('err-productos');
+}
+
+function updateTotal() {
+  const secTotal = document.getElementById('sec-total');
+  if (selected.size === 0) { secTotal.style.display = 'none'; return; }
+  secTotal.style.display = 'block';
+
+  let html = '';
+  let grand = 0;
+  selected.forEach(id => {
+    const isPromo = id === 'cvpromo';
+    const qty = isPromo ? 12 : parseInt(document.getElementById('qty-' + id).value);
+    const sub = isPromo ? 6 : PRECIOS[id] * qty;
+    grand += sub;
+    const label = isPromo ? `${NOMBRES[id]} (pack fijo)` : `${NOMBRES[id]} × ${qty}`;
+    const amt = `S/ ${sub.toFixed(2)}`;
+    html += `<div class="price-row"><span class="pname">${label}</span><span class="pamt">${amt}</span></div>`;
+  });
+  document.getElementById('price-rows').innerHTML = html;
+  document.getElementById('price-grand').textContent = 'S/ ' + grand.toFixed(2);
+}
+
+function updateConditionals() {
+  const needsTematicaCar = TEMATICA_CAR.some(id => selected.has(id));
+  const needsTematicaFor = selected.has('fpremium');
+  const needsForradoTipo = selected.has('festandar');
+  const needsAdi = needsTematicaCar || needsTematicaFor || needsForradoTipo;
+  const needsEst = [...selected].some(id => NECESITA_ESTUDIANTE.includes(id));
+
+  document.getElementById('sec-adicional').style.display = needsAdi ? 'block' : 'none';
+  document.getElementById('sec-estudiante').style.display = needsEst ? 'block' : 'none';
+
+  toggleCond('cond-tematica-car', needsTematicaCar);
+  toggleCond('cond-tematica-for', needsTematicaFor);
+  toggleCond('cond-tipo-forrado', needsForradoTipo);
+}
+
+function toggleCond(id, show) {
+  const el = document.getElementById(id);
+  if (show) el.classList.add('show'); else el.classList.remove('show');
+}
+
+function checkOtraTematica(type) {
+  const sel = document.getElementById('tematica-' + type).value;
+  document.getElementById('otra-tematica-' + type + '-wrap').style.display =
+    sel === 'Otra (escribir abajo)' ? 'block' : 'none';
+}
+
+function forradoCheck() { hide('err-forrado'); }
+
+
+function validate() {
+  let ok = true;
+  if (!v('nombre'))   { show('err-nombre');   ok = false; } else hide('err-nombre');
+  if (!v('telefono')) { show('err-telefono'); ok = false; } else hide('err-telefono');
+  if (selected.size === 0) { show('err-productos'); ok = false; } else hide('err-productos');
+
+  if (selected.has('festandar')) {
+    const vinifan = document.getElementById('for-vinifan').checked;
+    const lustre  = document.getElementById('for-lustre').checked;
+    if (!vinifan && !lustre) { show('err-forrado'); ok = false; } else hide('err-forrado');
+  }
+
+function validate() {
+  let ok = true;
+  if (!v('nombre'))   { show('err-nombre');   ok = false; } else hide('err-nombre');
+  if (!v('telefono')) { show('err-telefono'); ok = false; } else hide('err-telefono');
+  if (selected.size === 0) { show('err-productos'); ok = false; } else hide('err-productos');
+
+  if (selected.has('festandar')) {
+    const vinifan = document.getElementById('for-vinifan').checked;
+    const lustre  = document.getElementById('for-lustre').checked;
+    if (!vinifan && !lustre) { show('err-forrado'); ok = false; } else hide('err-forrado');
+  }
+
+  const needsEst = [...selected].some(id => NECESITA_ESTUDIANTE.includes(id));
+  if (needsEst) {
+    if (!v('est-nombre'))  { show('err-est-nombre');  ok = false; } else hide('err-est-nombre');
+    if (!v('est-colegio')) { show('err-est-colegio'); ok = false; } else hide('err-est-colegio');
+    if (!v('est-grado'))   { show('err-est-grado');   ok = false; } else hide('err-est-grado');
+    if (!v('est-cursos'))  { show('err-est-cursos');  ok = false; } else hide('err-est-cursos');
+  }
+
+  return ok;
+}}
+
+async function enviarPedido() {
+  if (!validate()) { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+
+  const btn = document.getElementById('btn-enviar');
+  document.getElementById('btn-txt').textContent = 'Enviando...';
+  document.getElementById('spinner').style.display = 'block';
+  btn.disabled = true;
+
+  let productos = [];
+  let grandTotal = 0;
+  selected.forEach(id => {
+    if (id === 'cvpromo') {
+      productos.push('Pack 12 Carátulas Digitales (Promo) = S/6.00');
+      grandTotal += 6;
+    } else {
+      const qty = parseInt(document.getElementById('qty-' + id).value);
+      const sub = PRECIOS[id] * qty;
+      productos.push(`${NOMBRES[id]} x${qty} = S/${sub.toFixed(2)}`);
+      grandTotal += sub;
+    }
+  });
+
+  let temCar = document.getElementById('tematica-car')?.value || '';
+  if (temCar === 'Otra (escribir abajo)') temCar = v('otra-tematica-car') || 'No especificada';
+  let temFor = document.getElementById('tematica-for')?.value || '';
+  if (temFor === 'Otra (escribir abajo)') temFor = v('otra-tematica-for') || 'No especificada';
+
+  const forVinifan = document.getElementById('for-vinifan')?.checked;
+  const forLustre  = document.getElementById('for-lustre')?.checked;
+  let tipoForrado = forVinifan && forLustre ? 'Papel lustre + Vinifan'
+                  : forVinifan ? 'Solo Vinifan'
+                  : forLustre  ? 'Papel lustre + Vinifan' : '';
+
+  const data = {
+    fecha: new Date().toLocaleString('es-PE', { timeZone: 'America/Lima' }),
+    nombre: v('nombre'),
+    telefono: (v('codigo') + ' ' + v('telefono')).trim(),
+    productos: productos.join(' | '),
+    total: 'S/ ' + grandTotal.toFixed(2),
+    tematica_car: temCar,
+    tematica_for: temFor,
+    tipo_forrado: tipoForrado,
+    est_nombre: v('est-nombre'),
+    est_colegio: v('est-colegio'),
+    est_grado: v('est-grado'),
+    est_cursos: v('est-cursos'),
+    comentario: v('est-comentario'),
+    estado: 'Pendiente 🔴'
+  };
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch(e) {}
+
+  document.querySelectorAll('.section, .btn-submit').forEach(el => el.style.display = 'none');
+  document.getElementById('success').classList.add('show');
+
+  const msg = encodeURIComponent(
+    `¡Hola Convermania! 👋\n\nAcabo de registrar mi pedido:\n👤 ${data.nombre}\n📦 ${data.productos}\n💰 Total: ${data.total}\n\n¡Quiero coordinar la entrega! 🎨`
+  );
+  document.getElementById('wsp-link').href = `https://wa.me/51995284090?text=${msg}`;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function v(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function show(id) { document.getElementById(id).classList.add('show'); }
+function hide(id) { document.getElementById(id).classList.remove('show'); }
+</script>
+</body>
+</html>
