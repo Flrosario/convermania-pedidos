@@ -216,12 +216,25 @@ textarea { resize: vertical; min-height: 90px; }
   font-size: 1.1rem;
   color: var(--magenta);
 }
+
+/* QUANTITY ROW — oculto por defecto, aparece solo al seleccionar */
 .qty-row {
   margin-top: 8px;
-  display: flex; align-items: center; gap: 8px;
+  display: none;
+  align-items: center;
+  gap: 8px;
+  animation: fadeIn 0.2s ease;
 }
+.product-card.selected .qty-row { display: flex; }
 .qty-row span { font-size: 0.75rem; color: #999; font-weight: 700; }
-.qty-sel { width: 70px; padding: 5px 8px; font-size: 0.83rem; }
+.qty-sel {
+  width: 70px; padding: 5px 8px; font-size: 0.83rem;
+  border: 1.5px solid var(--border); border-radius: 9px;
+  background: #fff5fb; text-align: center;
+  font-family: 'Nunito', sans-serif; color: var(--text);
+  outline: none;
+}
+.qty-sel:focus { border-color: var(--pink); background: white; }
 
 /* CONDITIONAL */
 .cond {
@@ -430,19 +443,19 @@ textarea { resize: vertical; min-height: 90px; }
       </p>
       <div class="product-grid">
 
-        <div class="product-card" id="card-cvpromo" onclick="toggleProduct('cvpromo')" style="position:relative;">
+        <div class="product-card" id="card-cvpromo" onclick="toggleProduct('cvpromo')">
           <div class="chk" id="chk-cvpromo">✓</div>
-          <div style="position:absolute;top:10px;left:10px;background:var(--pink);color:white;font-family:'Fredoka One',cursive;font-size:0.72rem;padding:3px 10px;border-radius:50px;letter-spacing:0.5px;z-index:2;">🔥 PROMO</div>
-          <div class="prod-img" style="margin-top:6px;">
-            <img src="digitales.png" alt="Pack 12 Carátulas"
+          <div class="prod-img">
+            <img src="digitales.png" alt="Portadas Digitales"
                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-            <div class="fallback" style="display:none">🎁</div>
+            <div class="fallback" style="display:none"></div>
           </div>
-          <div class="prod-name">Pack 12 Carátulas</div>
-          <div class="prod-desc">12 carátulas digitales personalizadas con temática o imagen de cada materia · Listas para imprimir</div>
-          <div class="prod-price">S/ 6.00 <span style="font-size:0.72rem;color:#aaa;font-family:'Nunito',sans-serif;">(S/ 0.50 c/u)</span></div>
-          <div style="background:#fff0f7;border-radius:8px;padding:6px 10px;margin-top:8px;font-size:0.75rem;color:var(--magenta);font-weight:700;">
-            ✅ Pack fijo de 12 unidades
+          <div class="prod-name">Portadas Digitales</div>
+          <div class="prod-desc">Portada digital personalizada con temática o imagen de cada materia · Lista para imprimir</div>
+          <div class="prod-price">S/ 1.00 <span style="font-size:0.72rem;color:#aaa;font-family:'Nunito',sans-serif;">por unidad</span></div>
+          <div class="qty-row">
+            <span>Cantidad:</span>
+            <input type="number" class="qty-sel" id="qty-cvpromo" min="1" value="1" onclick="event.stopPropagation()" oninput="updateTotal()">
           </div>
         </div>
 
@@ -458,11 +471,24 @@ textarea { resize: vertical; min-height: 90px; }
           <div class="prod-price">S/ 1.00 <span style="font-size:0.72rem;color:#aaa;font-family:'Nunito',sans-serif;">por unidad</span></div>
           <div class="qty-row">
             <span>Cantidad:</span>
-            <select class="qty-sel" id="qty-cvbasica" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
-              <option>1</option><option>2</option><option>3</option><option>4</option>
-              <option>5</option><option>6</option><option>7</option><option>8</option>
-              <option>9</option><option>10</option><option>11</option>
-            </select>
+            <input type="number" class="qty-sel" id="qty-cvbasica" min="1" value="1" onclick="event.stopPropagation()" oninput="updateTotal()">
+          </div>
+        </div>
+
+        <!-- NUEVO: ETIQUETAS A PLANCHA -->
+        <div class="product-card" id="card-etiquetas" onclick="toggleProduct('etiquetas')">
+          <div class="chk" id="chk-etiquetas">✓</div>
+          <div class="prod-img">
+            <img src="etiquetas.png" alt="Etiquetas a Plancha"
+                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            <div class="fallback" style="display:none">🏷️</div>
+          </div>
+          <div class="prod-name">Etiquetas a Plancha</div>
+          <div class="prod-desc">Plancha de 12 etiquetas personalizadas · diseño con nombre del estudiante y temática</div>
+          <div class="prod-price">S/ 6.00 <span style="font-size:0.72rem;color:#aaa;font-family:'Nunito',sans-serif;">por plancha de 12</span></div>
+          <div class="qty-row">
+            <span>Planchas:</span>
+            <input type="number" class="qty-sel" id="qty-etiquetas" min="1" value="1" onclick="event.stopPropagation()" oninput="updateTotal()">
           </div>
         </div>
 
@@ -484,11 +510,7 @@ textarea { resize: vertical; min-height: 90px; }
           <div class="prod-price">S/ 2.50</div>
           <div class="qty-row">
             <span>Cantidad:</span>
-            <select class="qty-sel" id="qty-cmbasica" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
-              <option>1</option><option>2</option><option>3</option><option>4</option>
-              <option>5</option><option>6</option><option>7</option><option>8</option>
-              <option>9</option><option>10</option><option>12</option><option>15</option>
-            </select>
+            <input type="number" class="qty-sel" id="qty-cmbasica" min="1" value="1" onclick="event.stopPropagation()" oninput="updateTotal()">
           </div>
         </div>
 
@@ -504,11 +526,7 @@ textarea { resize: vertical; min-height: 90px; }
           <div class="prod-price">S/ 3.50</div>
           <div class="qty-row">
             <span>Cantidad:</span>
-            <select class="qty-sel" id="qty-cmpergamino" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
-              <option>1</option><option>2</option><option>3</option><option>4</option>
-              <option>5</option><option>6</option><option>7</option><option>8</option>
-              <option>9</option><option>10</option><option>12</option><option>15</option>
-            </select>
+            <input type="number" class="qty-sel" id="qty-cmpergamino" min="1" value="1" onclick="event.stopPropagation()" oninput="updateTotal()">
           </div>
         </div>
 
@@ -524,11 +542,7 @@ textarea { resize: vertical; min-height: 90px; }
           <div class="prod-price">S/ 5.00</div>
           <div class="qty-row">
             <span>Cantidad:</span>
-            <select class="qty-sel" id="qty-cmtematica" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
-              <option>1</option><option>2</option><option>3</option><option>4</option>
-              <option>5</option><option>6</option><option>7</option><option>8</option>
-              <option>9</option><option>10</option><option>12</option><option>15</option>
-            </select>
+            <input type="number" class="qty-sel" id="qty-cmtematica" min="1" value="1" onclick="event.stopPropagation()" oninput="updateTotal()">
           </div>
         </div>
 
@@ -550,11 +564,7 @@ textarea { resize: vertical; min-height: 90px; }
           <div class="prod-price">S/ 2.50</div>
           <div class="qty-row">
             <span>Cantidad:</span>
-            <select class="qty-sel" id="qty-csbasica" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
-              <option>1</option><option>2</option><option>3</option><option>4</option>
-              <option>5</option><option>6</option><option>7</option><option>8</option>
-              <option>9</option><option>10</option><option>12</option><option>15</option>
-            </select>
+            <input type="number" class="qty-sel" id="qty-csbasica" min="1" value="1" onclick="event.stopPropagation()" oninput="updateTotal()">
           </div>
         </div>
 
@@ -570,11 +580,7 @@ textarea { resize: vertical; min-height: 90px; }
           <div class="prod-price">S/ 3.50</div>
           <div class="qty-row">
             <span>Cantidad:</span>
-            <select class="qty-sel" id="qty-cspergamino" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
-              <option>1</option><option>2</option><option>3</option><option>4</option>
-              <option>5</option><option>6</option><option>7</option><option>8</option>
-              <option>9</option><option>10</option><option>12</option><option>15</option>
-            </select>
+            <input type="number" class="qty-sel" id="qty-cspergamino" min="1" value="1" onclick="event.stopPropagation()" oninput="updateTotal()">
           </div>
         </div>
 
@@ -590,11 +596,7 @@ textarea { resize: vertical; min-height: 90px; }
           <div class="prod-price">S/ 5.00</div>
           <div class="qty-row">
             <span>Cantidad:</span>
-            <select class="qty-sel" id="qty-cstematica" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
-              <option>1</option><option>2</option><option>3</option><option>4</option>
-              <option>5</option><option>6</option><option>7</option><option>8</option>
-              <option>9</option><option>10</option><option>12</option><option>15</option>
-            </select>
+            <input type="number" class="qty-sel" id="qty-cstematica" min="1" value="1" onclick="event.stopPropagation()" oninput="updateTotal()">
           </div>
         </div>
 
@@ -616,11 +618,7 @@ textarea { resize: vertical; min-height: 90px; }
           <div class="prod-price">S/ 2.50</div>
           <div class="qty-row">
             <span>Cantidad:</span>
-            <select class="qty-sel" id="qty-festandar" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
-              <option>1</option><option>2</option><option>3</option><option>4</option>
-              <option>5</option><option>6</option><option>7</option><option>8</option>
-              <option>9</option><option>10</option>
-            </select>
+            <input type="number" class="qty-sel" id="qty-festandar" min="1" value="1" onclick="event.stopPropagation()" oninput="updateTotal()">
           </div>
         </div>
 
@@ -636,11 +634,7 @@ textarea { resize: vertical; min-height: 90px; }
           <div class="prod-price">S/ 3.50</div>
           <div class="qty-row">
             <span>Cantidad:</span>
-            <select class="qty-sel" id="qty-fespecial" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
-              <option>1</option><option>2</option><option>3</option><option>4</option>
-              <option>5</option><option>6</option><option>7</option><option>8</option>
-              <option>9</option><option>10</option>
-            </select>
+            <input type="number" class="qty-sel" id="qty-fespecial" min="1" value="1" onclick="event.stopPropagation()" oninput="updateTotal()">
           </div>
         </div>
 
@@ -656,11 +650,7 @@ textarea { resize: vertical; min-height: 90px; }
           <div class="prod-price">S/ 6.00</div>
           <div class="qty-row">
             <span>Cantidad:</span>
-            <select class="qty-sel" id="qty-fpremium" onclick="e=>e.stopPropagation()" onchange="updateTotal()">
-              <option>1</option><option>2</option><option>3</option><option>4</option>
-              <option>5</option><option>6</option><option>7</option><option>8</option>
-              <option>9</option><option>10</option>
-            </select>
+            <input type="number" class="qty-sel" id="qty-fpremium" min="1" value="1" onclick="event.stopPropagation()" oninput="updateTotal()">
           </div>
         </div>
 
@@ -872,15 +862,17 @@ textarea { resize: vertical; min-height: 90px; }
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnN_i1nU574xrzPW2VDyJvOPrQnUwrTiAiyVavQqHoE7xWoiLHSKDNlEeOf5Fr7phl/exec';
 
 const PRECIOS = {
-  cvpromo: 6, cvbasica: 1,
+  cvpromo: 1, cvbasica: 1,
+  etiquetas: 6,
   cmbasica: 2.5, cmpergamino: 3.5, cmtematica: 5,
   csbasica: 2.5, cspergamino: 3.5, cstematica: 5,
   festandar: 2.5, fespecial: 3.5, fpremium: 6
 };
 
 const NOMBRES = {
-  cvpromo: 'Pack 12 Carátulas Digitales (Promo)',
+  cvpromo: 'Portadas Digitales',
   cvbasica: 'Carátula Digital Unitaria',
+  etiquetas: 'Etiquetas a Plancha (plancha de 12)',
   cmbasica: 'Carátula Básica Niños',
   cmpergamino: 'Carátula Pergamino Niños',
   cmtematica: 'Carátula Temática Niños',
@@ -893,7 +885,7 @@ const NOMBRES = {
 };
 
 const TEMATICA_CAR = ['cvpromo','cvbasica','cmtematica','cstematica'];
-const NECESITA_ESTUDIANTE = ['cvpromo','cvbasica','cmtematica','cstematica','fespecial','fpremium','cmbasica','csbasica','cmpergamino','cspergamino'];
+const NECESITA_ESTUDIANTE = ['cvpromo','cvbasica','etiquetas','cmtematica','cstematica','fespecial','fpremium','cmbasica','csbasica','cmpergamino','cspergamino'];
 
 let selected = new Set();
 
@@ -919,11 +911,10 @@ function updateTotal() {
   let html = '';
   let grand = 0;
   selected.forEach(id => {
-    const isPromo = id === 'cvpromo';
-    const qty = isPromo ? 12 : parseInt(document.getElementById('qty-' + id).value);
-    const sub = isPromo ? 6 : PRECIOS[id] * qty;
+    const qty = parseInt(document.getElementById('qty-' + id).value) || 1;
+    const sub = PRECIOS[id] * qty;
     grand += sub;
-    const label = isPromo ? `${NOMBRES[id]} (pack fijo)` : `${NOMBRES[id]} × ${qty}`;
+    const label = `${NOMBRES[id]} × ${qty}`;
     const amt = `S/ ${sub.toFixed(2)}`;
     html += `<div class="price-row"><span class="pname">${label}</span><span class="pamt">${amt}</span></div>`;
   });
@@ -993,15 +984,10 @@ async function enviarPedido() {
   let productos = [];
   let grandTotal = 0;
   selected.forEach(id => {
-    if (id === 'cvpromo') {
-      productos.push('Pack 12 Carátulas Digitales (Promo) = S/6.00');
-      grandTotal += 6;
-    } else {
-      const qty = parseInt(document.getElementById('qty-' + id).value);
+    const qty = parseInt(document.getElementById('qty-' + id).value) || 1;
       const sub = PRECIOS[id] * qty;
       productos.push(`${NOMBRES[id]} x${qty} = S/${sub.toFixed(2)}`);
       grandTotal += sub;
-    }
   });
 
   let temCar = document.getElementById('tematica-car')?.value || '';
